@@ -1,0 +1,13 @@
+SELECT
+   c.CustomerEmail AS cust_email, c.CustomerCity AS cust_city, o.Date AS order_date, pc.CategoryName AS category_name,
+   p.ProdName AS product_name, o.Quantity AS order_qty, p.Price AS product_price, 
+   ROUND(SUM(p.Price * o.Quantity), 2) AS total_sales
+FROM
+    `wb_project.orders` o
+    JOIN `wb_project.customers` c ON o.CustomerID = c.CustomerID
+    JOIN `wb_project.products` p ON o.ProdNumber = p.ProdNumber
+    JOIN `wb_project.productCategory` pc ON p.CategoryID = pc.CategoryID
+GROUP BY
+   c.CustomerEmail, c.CustomerCity, o.Date, pc.CategoryName, p.ProdName,o.Quantity, p.Price
+ORDER BY
+    o.Date ASC;
